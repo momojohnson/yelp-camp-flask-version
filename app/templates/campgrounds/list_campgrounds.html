@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="jumbotron">
+{% if current_user.is_authenticated %}
+  <h1 class="display-5 text-center">Hi {{current_user.first_name }}, welcome to Yelp Camp</h1>
+  <p class="lead text-center">At Yelp Camp, we are interested in seeing our members share their camping experiences with each other..</p>
+  <hr class="my-4">
+  <p>You can use the buttons below to either add a campground or go back to home page.</p>
+  <a class="btn btn-primary btn-md" href="{{url_for('home.home_page')}}" role="button">Home</a>
+  <a class="btn btn-primary btn-md" href="{{url_for('campground.create_campground')}}" role="button">Add a campground</a>
+</div>
+{% else %}
+ <h1 class="display-5 text-center">Hi {{current_user.first_name }}, welcome to Yelp Camp</h1>
+  <p class="lead text-center">At Yelp Camp, we are interested in seeing our members share their camping experiences with each other..</p>
+  <hr class="my-4">
+  <p>You can use the buttons below to either add a campground or go back to home page.</p>
+  <a class="btn btn-primary btn-md" href="{{url_for('home.home_page')}}" role="button">Home</a>
+  <a class="btn btn-primary btn-md" href="{{url_for('campground.create_campground')}}" role="button">Add a campground</a>
+</div>
+{% endif %}
+
+<div class="container">
+    <div class="row">
+        {% if campgrounds %}
+           {% for campground in campgrounds %}
+            <div class="col-md-4">
+            <figure class="figure img-thumbnail">
+              <img src="{{campground.image}}" class="figure-img img-fluid " alt="An image of a campground.">
+              <figcaption class="figure-caption text-right">{{campground.name}} <a class="btn btn-primary btn-sm" href="{{url_for('campground.display_campground', campground_id=campground.id, slug=campground.slugified_name)}}" role="button">view more...</a></figcaption>
+            </figure>
+            </div>
+            {% endfor %}
+          {% else %}
+          <h4>No campgrounds have been added</h4>
+          {% endif %}
+    </div>
+</div>
+{% endblock %}

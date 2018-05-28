@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-12 col-md-7 mx-auto">
+        <form action="{{url_for('auth.register_user')}}" method="POST">
+             {{registration_form.hidden_tag()}}
+               {% if registration_form.email.errors %}
+               {% for error in registration_form.email.errors %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                  <strong>{{error}}</strong>
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+               
+            {% endfor %}
+            {% endif %}
+             <div class="form-group">
+                 {{registration_form.email.label}}
+                 {{registration_form.email(class="form-control form-control-md", id="email", placeholder="Enter Email")}}
+              </div>
+              
+            {% if registration_form.username.errors %}
+               {% for error in registration_form.username.errors %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                  <strong>{{error}}</strong>
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+               
+            {% endfor %}
+            {% endif %}
+             <div class="form-group">
+                 {{registration_form.username.label}}
+                 {{registration_form.username(class="form-control form-control-md", id="email", placeholder="Enter Username")}}
+              </div>
+                  
+            {% if registration_form.first_name.errors %}
+               {% for error in registration_form.first_name.errors %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                  <strong>{{error}}</strong>
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+               
+            {% endfor %}
+            {% endif %}
+             <div class="form-group">
+                 {{registration_form.first_name.label}}
+                 {{registration_form.first_name(class="form-control form-control-md", id="email", placeholder="First name")}}
+              </div>
+              
+          {% if registration_form.last_name.errors %}
+               {% for error in registration_form.last_name.errors %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                  <strong>{{error}}</strong>
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+               
+            {% endfor %}
+            {% endif %}
+             <div class="form-group">
+                 {{registration_form.last_name.label}}
+                 {{registration_form.last_name(class="form-control form-control-md", id="email", placeholder="Last Name")}}
+              </div>
+              
+           {% if registration_form.profile_pic.errors %}
+           {% for error in registration_form.profile_pic.errors %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+              <strong>{{error}}</strong>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+           
+        {% endfor %}
+        {% endif %}
+         <div class="form-group">
+             {{registration_form.profile_pic.label}}
+             {{registration_form.profile_pic(class="form-control form-control-md", id="email", placeholder="Enter profile pic url")}}
+          </div>
+          
+            {% if registration_form.password.errors %}
+           {% for error in registration_form.password.errors %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+              <strong>{{error}}</strong>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+           
+        {% endfor %}
+        {% endif %}
+         <div class="form-group">
+             {{registration_form.password.label}}
+             {{registration_form.password(class="form-control form-control-md", id="email", placeholder="Enter password")}}
+          </div>
+          
+        {% if registration_form.confirm_password.errors %}
+           {% for error in registration_form.confirm_password.errors %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+              <strong>{{error}}</strong>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+           
+        {% endfor %}
+        {% endif %}
+         <div class="form-group">
+             {{registration_form.confirm_password.label}}
+             {{registration_form.confirm_password(class="form-control form-control-md", id="email", placeholder="Confirm password")}}
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+

@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-5">
+  <div class="row">
+      <div class="col-12 col-md-5 mx-auto">
+          <form action="{{url_for('auth.user_login')}}" method="POST">
+     {{login_form.hidden_tag()}}
+     {% if login_form.email.errors %}
+       {% for error in login_form.email.errors %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <strong>{{error}}</strong>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+                   
+    {% endfor %}
+    {% endif %}
+     <div class="form-group">
+         {{login_form.email.label}}
+         {{login_form.email(class="form-control form-control-md", id="email", placeholder="Enter Email")}}
+      </div>
+      
+     {% if login_form.password.errors %}
+       {% for error in login_form.password.errors %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <strong>{{error}}</strong>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+                   
+    {% endfor %}
+    {% endif %}
+     <div class="form-group">
+         {{login_form.password.label}}
+         {{login_form.password(class="form-control form-control-md", id="email", placeholder="Enter password")}}
+      </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+      </div>
+  </div>
+</div>
+
+{% endblock %}
+
