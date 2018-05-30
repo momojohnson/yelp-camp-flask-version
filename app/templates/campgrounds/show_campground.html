@@ -17,25 +17,24 @@
               <img class="card-img-top" src="{{campground.image}}" alt="A campground image">
               <div class="card-body">
                   <h4 class=" float-right">{{ "${:,.2f}".format(campground.price) }}/Night</h4>
-                  <a href=""><h4 class="text-primary font-bold pb-0">{{campground.name}}</h4></a> 
+                  <a href=""><h4 class="text-primary font-bold pb-0">{{campground.name}}</h4></a>
                 <p class="card-text text-justify">{{campground.description}}</p>
               </div>
               <p class="ml-4 text-primary">Submitted By: {{campground.user_campground.first_name}} {{campground.user_campground.last_name}} {{ moment(campground.create_at).fromNow(refresh=True)}}</p>
               {% if campground.user_campground.username == current_user.username %}
               <div class="mb-2 ml-4">
-                <a href="{{url_for('campground.edit_campground', campground_id=campground.id, slug=campground.slugified_name)}}" class="btn btn-warning">Edit</a> 
-             <a href="{{url_for('campground.delete_campground', campground_id=campground.id, slug=campground.slugified_name)}}" class="btn btn-danger">Delete</a> 
+                <a href="{{url_for('campground.edit_campground', campground_id=campground.id, slug=campground.slugified_name)}}" class="btn btn-warning">Edit</a>
+             <a href="{{url_for('campground.delete_campground', campground_id=campground.id, slug=campground.slugified_name)}}" class="btn btn-danger">Delete</a>
             </div>
             {% endif %}
-            
+
             </div>
             <div class="card card-header mt-3">
                 <div class="">
-                    <a href="" class="btn btn-success float-right" style="display:inline">Leave a comment</a> 
+                    <a href="{{url_for('comments.add_comment', slug=campground.slugified_name, campground_id=campground.id)}}" class="btn btn-success float-right" style="display:inline">Leave a comment</a>
                 </div>
             </div>
             </div>
         </div>
     </div>
 {% endblock %}
-

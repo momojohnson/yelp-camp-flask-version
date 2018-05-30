@@ -10,8 +10,8 @@ class DevelopmentConfig(Config):
     Development Configurations
     """
     
-    SQLALCHEMY_ECHO = True
     DEBUG = True
+    SQLALCHEMY_ECHO = True
     
 class ProductionConfig(Config):
     """
@@ -20,7 +20,9 @@ class ProductionConfig(Config):
     DEBUG = False
     SQLALCHEMY_ECHO = False
 
+
+
 app_config = {
-'development': DevelopmentConfig,
-'production': ProductionConfig
+    'development': DevelopmentConfig,
+    'production': ProductionConfig
 }
