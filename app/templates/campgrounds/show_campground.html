@@ -11,30 +11,61 @@
               <li class="list-group-item">Info 3</li>
               <li class="list-group-item">Info 4</li>
          </ul>
+         <div id="map" class="mt-2"></div>
             </div>
             <div class="col-md-9 mt-3">
             <div class="card">
               <img class="card-img-top" src="{{campground.image}}" alt="A campground image">
               <div class="card-body">
                   <h4 class=" float-right">{{ "${:,.2f}".format(campground.price) }}/Night</h4>
-                  <a href=""><h4 class="text-primary font-bold pb-0">{{campground.name}}</h4></a>
-                <p class="card-text text-justify">{{campground.description}}</p>
+                  <a href=""><h4 class="text-primary font-bold pb-0">{{campground.name}}</h4></a> 
+                <p class="card-text text-justify mb-0">{{campground.description}}</p>
+                <span id="lng">{{campground.lng}}</span>
+                <span id="lat">{{campground.lat}}</span>
               </div>
               <p class="ml-4 text-primary">Submitted By: {{campground.user_campground.first_name}} {{campground.user_campground.last_name}} {{ moment(campground.create_at).fromNow(refresh=True)}}</p>
               {% if campground.user_campground.username == current_user.username %}
-              <div class="mb-2 ml-4">
-                <a href="{{url_for('campground.edit_campground', campground_id=campground.id, slug=campground.slugified_name)}}" class="btn btn-warning">Edit</a>
-             <a href="{{url_for('campground.delete_campground', campground_id=campground.id, slug=campground.slugified_name)}}" class="btn btn-danger">Delete</a>
+              <div class="mb-0 ml-4">
+                <a href="{{url_for('campground.edit_campground', campground_id=campground.id, slug=campground.slugified_name)}}" class="btn btn-warning">Edit <ion-icon size="medium" name="create"></ion-icon></a>
+             <a href="{{url_for('campground.delete_campground', campground_id=campground.id, slug=campground.slugified_name)}}" class="btn btn-danger text-dark">Delete <ion-icon name="close"></ion-icon></a>
+             <p class="float-right mr-4 font-weight-bold text-muted">{{campground.comment.count()}} comment{{campground.comment.count()|pluralize}}</p>
             </div>
-            {% endif %}
+            {% endif %}`
 
             </div>
             <div class="card card-header mt-3">
                 <div class="">
                     <a href="{{url_for('comments.add_comment', slug=campground.slugified_name, campground_id=campground.id)}}" class="btn btn-success float-right" style="display:inline">Leave a comment</a>
                 </div>
+                <hr/>
+
+              {% if campground.comment %}
+              {% for comment in campground.comment|sort(attribute='create_at', reverse=True) %}
+            <div class="row">
+               <div class="col-md-12">
+                  <span class="float-right text-muted">{{ moment(comment.create_at).fromNow(refresh=True)}}</span>
+                  <p class="font-weight-bold text-muted">{{comment.user_comment.first_name}} {{comment.user_comment.last_name}}</p>
+                  <p class="text-justify">{{comment.comment}}</p>
+                  {% if comment.user_comment.username == current_user.username %}
+                  <div class=" mb-3">
+                       <a  href="{{url_for('comments.edit_comment', campground_id=campground.id, comment_id=comment.id, slug=campground.slugified_name)}}" class="btn btn-warning" style="display:inline">Edit <ion-icon size="medium" name="create"></ion-icon></a>
+                       <a  href="{{url_for('comments.delete_comment', campground_id=campground.id, comment_id=comment.id, slug=campground.slugified_name)}}" class="btn btn-danger text-dark" style="display:inline">Delete <ion-icon name="close"></ion-icon></a>
+                  </div>
+                  {% endif %}
+
+               </div>
+
+            </div>
+            <hr/>
+            {% endfor %}
+            {% endif %}
             </div>
             </div>
         </div>
     </div>
 {% endblock %}
+{% block mapcontent %}
+<script src="{{url_for('static', filename='js/googlemap.js')}}"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyArqBRe-0nSAMl-ZOeBinb1SJsGgyltGJY&callback=initMap"></script>
+
+{%endblock %}

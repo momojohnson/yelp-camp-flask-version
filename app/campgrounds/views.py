@@ -1,6 +1,8 @@
 from flask import flash, redirect, render_template, url_for
 from flask_login import login_required, login_user, logout_user, current_user, login_manager
 
+import geocoder
+
 
 
 from .. models import Campground, Comment, User
@@ -27,10 +29,13 @@ def create_campground():
     campground_form = CampgroundForm()
     if campground_form.validate_on_submit():
             campground = Campground(name=campground_form.name.data, image=campground_form.image.data, 
-                        location=campground_form.location.data, price=campground_form.price.data, 
+                        price=campground_form.price.data, 
                         description=campground_form.description.data,
                         user_campground=user)
-            # campground.user.campground_id = user.id
+            g = geocoder.google(campground_form.location.data)
+            campground.location = g.json.get('raw').get('formatted_address')
+            campground.lat= g.json.get('raw').get('geometry').get('location').get('lat')
+            campground.lng = g.json.get('raw').get('geometry').get('location').get('lng')
             db.session.add(campground)
             db.session.commit()
             return redirect(url_for('campground.list_all_campgrounds'))
@@ -63,7 +68,10 @@ def edit_campground(campground_id, slug):
     if campground_form.validate_on_submit():
         campground.name = campground_form.name.data
         campground.image = campground_form.image.data
-        campground.location = campground_form.location.data
+        g = geocoder.google(campground_form.location.data)
+        campground.location = g.json.get('raw').get('formatted_address')
+        campground.lat= g.json.get('raw').get('geometry').get('location').get('lat')
+        campground.lng = g.json.get('raw').get('geometry').get('location').get('lng')
         campground.price = campground_form.price.data
         campground.description = campground_form.description.data
         db.session.commit()
