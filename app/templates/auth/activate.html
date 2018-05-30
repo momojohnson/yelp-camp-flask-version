@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block content %}
+	<h4 style="color:red">Email Confirmation</h4>
+	<p>Welcome! Thanks for signing up. Please follow this link to activate your account:</p>
+	<p><a href="{{ confirmation_url }}">{{ confirmation_url }}</a></p>
+	<br>
+	<p>We hope you find our site helpful!</p>
+{% endblock content %}

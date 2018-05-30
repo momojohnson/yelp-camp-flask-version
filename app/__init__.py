@@ -3,12 +3,14 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_migrate import Migrate
 from flask_moment import Moment
+from flask_mail import Mail
 
 from config import app_config
 
 db = SQLAlchemy()
 login_manager = LoginManager()
 moment = Moment()
+mail = Mail()
 
 def create_app(config_name):
     app = Flask(__name__, instance_relative_config=True)
@@ -18,6 +20,7 @@ def create_app(config_name):
     db.init_app(app)
     login_manager.init_app(app)
     migrate = Migrate(app, db)
+    mail.init_app(app)
 
     from app import models
 

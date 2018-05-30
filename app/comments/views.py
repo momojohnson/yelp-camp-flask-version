@@ -1,12 +1,14 @@
-from . import comments
 from flask import flash, redirect, render_template, url_for
 from flask_login import current_user, login_required
+from . import comments
 from .. models import Campground, Comment, User
+from decorators import check_confirmed
 from . forms import commentForm
 from app import db
 
 @comments.route('/add', methods=['GET', 'POST'])
 @login_required
+@check_confirmed
 def add_comment(slug, campground_id):
     """
     Handles comment creation at /campgrounds/campground_id>/<slug>/comment/add
@@ -33,6 +35,8 @@ def add_comment(slug, campground_id):
     return render_template('comments/create_comment.html', comment_form=comment_form, campground=campground, add_comment=add_comment, title='Create Comment')
 
 @comments.route('/<int:comment_id>/edit', methods=['GET', 'POST'])
+@login_required
+@check_confirmed
 def edit_comment(slug, campground_id, comment_id):
     """
     Handles editing of a user comment at route /campgrounds/campground_id>/<slug>/comment/comment_id/edit
@@ -50,6 +54,8 @@ def edit_comment(slug, campground_id, comment_id):
     return render_template('comments/create_comment.html', campground=campground, comment_form=comment_form, comment=comment, add_comment=add_comment, title="Edit Comment")
 
 @comments.route('/<int:comment_id>/delete', methods=['GET', 'POST'])
+@login_required
+@check_confirmed
 def delete_comment(slug, campground_id, comment_id):
     campground = Campground.query.get_or_404(campground_id)
     comment = Comment.query.get_or_404(comment_id)

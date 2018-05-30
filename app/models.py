@@ -23,22 +23,23 @@ class User(UserMixin, db.Model):
     comment = db.relationship('Comment', backref='user_comment', lazy='dynamic')
     is_admin = db.Column(db.Boolean, default=False)
     confirm_email = db.Column(db.Boolean, default=False)
-    
+    confirm_on = db.Column(db.DateTime, index=True)
+
     @property
     def password(self):
         """
         Avoid password from being accessed
         """
         raise AttributeError(" Passworty can't be accessed")
-    
-    @password.setter 
+
+    @password.setter
     def password(self, password):
-        """ 
+        """
         Set a hash password
         """
         self.password_hash = generate_password_hash(password)
-    
-    
+
+
     def verify_password(self, password):
         """
         Verify if password matches actual password
@@ -54,12 +55,12 @@ def load_user(user_id):
 def unauthorized_handler():
     flash('You must be login to perform this action', 'danger')
     return redirect(url_for('auth.user_login'))
-    
-    
+
+
 class Campground(db.Model):
     """
     Create a campground table
-    
+
     """
     __tablename__ = "campgrounds"
     id = db.Column(db.Integer, primary_key=True)
@@ -73,8 +74,8 @@ class Campground(db.Model):
     create_at = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     comment = db.relationship('Comment', backref="campground_comment", lazy='dynamic')
-    
-    
+
+
     @property
     def slugified_name(self):
         return slugify(self.name, separator="-")
@@ -87,7 +88,3 @@ class Comment(db.Model):
     create_at = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     campground_id = db.Column(db.Integer, db.ForeignKey('campgrounds.id'))
-
-
-    
-    
