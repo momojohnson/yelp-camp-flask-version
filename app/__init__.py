@@ -5,6 +5,7 @@ from flask_migrate import Migrate
 from flask_moment import Moment
 
 
+
 from config import app_config
 
 db = SQLAlchemy()
@@ -34,6 +35,13 @@ def create_app(config_name):
     app.register_blueprint(campgrounds_blueprint, url_prefix="/campgrounds")
     
     from . comments import comments as comments_blueprint
-    app.register_blueprint(comments_blueprint, url_prefix="/comments")
+    app.register_blueprint(comments_blueprint, url_prefix="/campgrounds/<int:campground_id>/<slug>/comment")
+    
+    @app.template_filter('pluralize')
+    def pluralize(number, singular = '', plural = 's'):
+        if number == 1:
+            return singular
+        else:
+            return plural
     
     return app

@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+    <div class="col-md-6 mx-auto mt-4">
+    {% if add_comment %}
+    <h4 class='text-center'>Add a comment for {{campground.name }}</h4>
+    <form action="{{url_for('comments.add_comment', slug=campground.slugified_name, campground_id=campground.id)}}" method='POST'>
+    {% else %}
+    <h4 class='text-center'>Edit a comment for {{campground.name }}</h4>
+     <form action="{{url_for('comments.edit_comment', slug=campground.slugified_name, campground_id=campground.id, comment_id=comment.id)}}" method='POST'>
+         {% endif %}
+        {{comment_form.hidden_tag()}}
+        {% if comment_form.comment.errors %}
+           {% for error in comment_form.comment.errors %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+              <strong>{{error}}</strong>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+           
+        {% endfor %}
+        {% endif %}
+         <div class="form-group">
+             {{comment_form.comment.label}}
+             {{comment_form.comment(class="form-control form-control-md", id="comment", placeholder="Enter Comment", rows="7")}}
+          </div>
+          {% if add_comment %}
+          <button type="submit" class="btn btn-primary">Add comment</button>
+          {% else %}
+          <button type="submit" class="btn btn-primary">Edit Comment</button>
+          {% endif %}
+          <a class="btn btn-primary" href="{{url_for('campground.display_campground', campground_id=campground.id, slug=campground.slugified_name)}}">Cancel</a>
+        </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

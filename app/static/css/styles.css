@@ -1,0 +1,13 @@
+#delete-form, #comment-delete{
+    display: inline;
+}
+
+/* Google Maps */
+#map {
+    height: 300px;
+    width: 100%;
+}
+
+#lng, #lat{
+    display: none;
+}
