@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-5 mx-auto mt-3">
+        <p class="h5 text-center">Please enter your email to recover password</p>
+    	<form action="{{url_for('auth.reset')}}" method="POST" >
+    		{{email_form.hidden_tag()}}
+    	<div class="input-field">
+          {% if email_form.user_email.errors %}
+                {% for error in  email_form.user_email.errors %}
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+              <strong>{{error}}</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        {% endfor %}
+
+        {% endif %}
+    		  <label for="email">{{email_form.user_email.label}}</label>
+        {{email_form.user_email(class="form-control form-control-md",id="email", placeholder="email")}}
+        </div>
+     <button type="submit" class="btn btn-primary mt-2">Recover password</button>
+    </form>
+    </div>
+  </div>
+</div>
+{% endblock content %}

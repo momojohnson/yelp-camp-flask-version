@@ -15,14 +15,14 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-                   
+
     {% endfor %}
     {% endif %}
      <div class="form-group">
          {{login_form.email.label}}
          {{login_form.email(class="form-control form-control-md", id="email", placeholder="Enter Email")}}
       </div>
-      
+
      {% if login_form.password.errors %}
        {% for error in login_form.password.errors %}
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -31,18 +31,17 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-                   
+
     {% endfor %}
     {% endif %}
      <div class="form-group">
          {{login_form.password.label}}
          {{login_form.password(class="form-control form-control-md", id="email", placeholder="Enter password")}}
       </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-primary">Login</button> <a class="text-primary btn btn-link" href="{{url_for('auth.reset')}}" title=""><strong>Forgot password?</strong></a>
 </form>
       </div>
   </div>
 </div>
 
 {% endblock %}
-

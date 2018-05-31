@@ -2,7 +2,7 @@ from datetime import datetime
 from flask import flash, redirect, render_template, url_for
 from flask_login import login_required, login_user, logout_user, current_user
 from . import auth
-from . forms import LoginForm, RegistrationForm
+from . forms import LoginForm, RegistrationForm, EmailForm, PasswordResetForm
 from email_token import generate_confirmation_token, confirm_token
 from send_user_email import send_email
 
@@ -90,7 +90,7 @@ def user_login():
 def resend_confirmation():
     """
     Handles the resending of user confirmation link if the user didn't
-    receive the initial confirmation link
+    receive the initial confirmation link at route /account/resend
     """
     token = generate_confirmation_token(current_user.confirm_email)
     confirmation_url = url_for("auth.confirm_email", token=token, _external=True)
@@ -99,6 +99,55 @@ def resend_confirmation():
     send_email(current_user.email, subject, html)
     flash('A comfirmation email has been sent to {}'.format(current_user.email), 'success')
     return redirect(url_for('auth.unconfirmed'))
+
+@auth.route("/reset", methods=["GET", "POST"])
+def reset():
+    """
+    Handles the reset of a user password by rendering a template that
+    gets the user email at /account/reset
+	"""
+    email_form = EmailForm()
+    user = None
+    if email_form.validate_on_submit():
+        try:
+            user = User.query.filter_by(email=email_form.user_email.data).first_or_404()
+        except:
+            # render the form, the email entered isn't registered
+            return render_template('auth/email_reset_form.html', email_form=email_form)
+        if user.confirm_email:
+            token = generate_confirmation_token(user.email)
+            password_reset_url = url_for("auth.reset_with_token", token=token, _external=True)
+            html = render_template("auth/reset_link.html", password_reset_url=password_reset_url)
+            subject = "Password Change Requested"
+            send_email(user.email, subject, html)
+            flash('We sent an email to {} with a link to change your password. Please check your inbox for the email.'.format(user.email), "info")
+            return redirect(url_for('auth.user_login'))
+        else:
+            flash("You will need to confirm your account before resetting password", 'success' )
+            return redirect(url_for("auth.resend_confirmation"))
+    return render_template('auth/email_reset_form.html', email_form=email_form)
+
+
+@auth.route("/reset-password/<token>", methods=["GET", "POST"])
+def reset_with_token(token):
+	"""
+	Handles the reset of a user password with the token that was sent
+	to the user at /reset-password/<token>
+	"""
+	password_form = PasswordResetForm()
+	try:
+		email = confirm_token(token)
+	except:
+		return redirect(url_for('auth.login'))
+	if password_form.validate_on_submit():
+		user = User.query.filter_by(email=email).first_or_404()
+		user.password = password_form.password.data
+		db.session.add(user)
+		db.session.commit()
+		flash("You have successfully change your password.", "success")
+		return redirect(url_for('auth.user_login'))
+	return render_template("auth/password_change_form.html", password_form=password_form, token=token)
+
 
 @auth.route('/logout')
 def user_logout():

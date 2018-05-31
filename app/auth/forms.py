@@ -44,7 +44,7 @@ class LoginForm(FlaskForm):
 
 class PasswordResetForm(FlaskForm):
 	"""
-	A form that handles user password reset when a user forgets his password
+	A form that handles user password reset when a user forgets his/her password
 	"""
 	password = PasswordField("New Password",
 			 	validators=[DataRequired("Please enter your new password"),

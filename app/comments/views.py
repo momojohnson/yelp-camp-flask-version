@@ -57,6 +57,9 @@ def edit_comment(slug, campground_id, comment_id):
 @login_required
 @check_confirmed
 def delete_comment(slug, campground_id, comment_id):
+    """
+    Handles campground deletion at /campgrounds/campground_id>/<slug>/comment/comment_id/delete
+    """
     campground = Campground.query.get_or_404(campground_id)
     comment = Comment.query.get_or_404(comment_id)
     db.session.delete(comment)

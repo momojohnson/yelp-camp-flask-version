@@ -50,8 +50,6 @@ def display_campground(campground_id, slug):
 
     return render_template('campgrounds/show_campground.html', campground=campground, title=campground.name)
 
-
-
 @campground.route('/<int:campground_id>/<slug>/edit', methods=['GET', 'POST'])
 @login_required
 @check_confirmed
