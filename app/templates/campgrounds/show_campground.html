@@ -18,10 +18,11 @@
               <img class="card-img-top" src="{{campground.image}}" alt="A campground image">
               <div class="card-body">
                   <h4 class=" float-right">{{ "${:,.2f}".format(campground.price) }}/Night</h4>
-                  <a href=""><h4 class="text-primary font-bold pb-0">{{campground.name}}</h4></a> 
-                <p class="card-text text-justify mb-0">{{campground.description}}</p>
+                  <a href=""><h4 class="text-primary font-bold pb-0 campground-name">{{campground.name}}</h4></a>
+                <p class="card-text text-justify mb-0 campground-description">{{campground.description}}</p>
                 <span id="lng">{{campground.lng}}</span>
                 <span id="lat">{{campground.lat}}</span>
+                <span id="loc">{{campground.location}}</span>
               </div>
               <p class="ml-4 text-primary">Submitted By: {{campground.user_campground.first_name}} {{campground.user_campground.last_name}} {{ moment(campground.create_at).fromNow(refresh=True)}}</p>
               {% if campground.user_campground.username == current_user.username %}

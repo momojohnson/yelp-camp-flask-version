@@ -5,9 +5,9 @@
     <div class="row">
         <div class="col-12 col-md-7 mx-auto">
             {% if add_campground %}
-        <form action="{{url_for('campground.create_campground')}}" method="POST">
+        <form action="{{url_for('campground.create_campground')}}" enctype="multipart/form-data" method="POST">
             {% else %}
-        <form action="{{url_for('campground.edit_campground', campground_id=campground.id, slug=campground.slugified_name)}}" method="POST">
+        <form action="{{url_for('campground.edit_campground', campground_id=campground.id, slug=campground.slugified_name)}}" enctype="multipart/form-data" method="POST">
             {% endif %}
              {{campground_form.hidden_tag()}}
                {% if campground_form.name.errors %}
@@ -18,14 +18,14 @@
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
-               
+
             {% endfor %}
             {% endif %}
              <div class="form-group">
                  {{campground_form.name.label}}
                  {{campground_form.name(class="form-control form-control-md", id="name", placeholder="Enter campground name")}}
               </div>
-              
+
             {% if campground_form.image.errors %}
                {% for error in campground_form.image.errors %}
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -34,14 +34,14 @@
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
-               
+
             {% endfor %}
             {% endif %}
              <div class="form-group">
                  {{campground_form.image.label}}
                  {{campground_form.image(class="form-control form-control-md", id="image", placeholder="Enter image url")}}
               </div>
-                  
+
             {% if campground_form.location.errors %}
                {% for error in campground_form.location.errors %}
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -50,14 +50,14 @@
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
-               
+
             {% endfor %}
             {% endif %}
              <div class="form-group">
                  {{campground_form.location.label}}
-                 {{campground_form.location(class="form-control form-control-md", id="location", placeholder="Enter location address")}}
+                 {{campground_form.location(class="form-control form-control-md", id="location", placeholder="1723 E Panama Dr., CO")}}
               </div>
-              
+
           {% if campground_form.price.errors %}
                {% for error in campground_form.price.errors %}
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -66,14 +66,14 @@
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
-               
+
             {% endfor %}
             {% endif %}
              <div class="form-group">
                  {{campground_form.price.label}}
                  {{campground_form.price(class="form-control form-control-md", id="price", type="Number", min="0.01", step="0.01", placeholder="0.00")}}
               </div>
-              
+
             {% if campground_form.description.errors %}
                {% for error in campground_form.description.errors %}
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -82,7 +82,7 @@
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
-               
+
             {% endfor %}
             {% endif %}
              <div class="form-group">
@@ -99,4 +99,3 @@
     </div>
 </div>
 {% endblock %}
-

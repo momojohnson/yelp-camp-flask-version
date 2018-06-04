@@ -9,11 +9,13 @@ function initMap() {
         center: center,
         scrollwheel: false
     });
-    var contentString = `
-      <strong>{{campground.name}}<br />
-      {{campground.location}}</strong>
-      <p>{{ campground.description}}</p>
-    `
+    var campgroundName = $('.campground-name').text(),
+        campgroundLocation = $('#loc').text(),
+        campgroundDescription = $('.campground-description').text();
+        console.log("Location"+campgroundLocation)
+    var contentString = "<strong>"+ campgroundName +"<br />"
+        + campgroundLocation + "</strong>" +
+      "<p>"+ campgroundDescription + "</p>";
     var infowindow = new google.maps.InfoWindow({
       content: contentString
     });

@@ -71,6 +71,7 @@ class Campground(db.Model):
     price = db.Column(db.DECIMAL)
     location = db.Column(db.String())
     description = db.Column(db.String())
+    image_id = db.Column(db.String())
     create_at = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     comment = db.relationship('Comment', backref="campground_comment", lazy='dynamic')

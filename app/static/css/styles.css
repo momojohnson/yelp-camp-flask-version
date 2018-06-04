@@ -8,6 +8,6 @@
     width: 100%;
 }
 
-#lng, #lat{
+#lng, #lat, #loc{
     display: none;
 }
